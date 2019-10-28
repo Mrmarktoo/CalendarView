@@ -115,26 +115,32 @@ public class MainActivity extends BaseActivity implements
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
+                                /**展开日历*/
                                 mCalendarLayout.expand();
                                 break;
                             case 1:
+                                /**收缩日历*/
                                 boolean result = mCalendarLayout.shrink();
                                 Log.e("shrink", " --  " + result);
                                 break;
                             case 2:
+                                /**日历上一页*/
                                 mCalendarView.scrollToPre(false);
                                 break;
                             case 3:
+                                /**日历下一页*/
                                 mCalendarView.scrollToNext(false);
                                 break;
                             case 4:
                                 //mCalendarView.scrollToCurrent(true);
+                                /**日历滚动到指定日期*/
                                 mCalendarView.scrollToCalendar(2018, 12, 30);
                                 break;
                             case 5:
+                                /**设置日期范围*/
                                 mCalendarView.setRange(2018, 7, 1, 2019, 4, 28);
-//                                mCalendarView.setRange(mCalendarView.getCurYear(), mCalendarView.getCurMonth(), 6,
-//                                        mCalendarView.getCurYear(), mCalendarView.getCurMonth(), 23);
+                                //                                mCalendarView.setRange(mCalendarView.getCurYear(), mCalendarView.getCurMonth(), 6,
+                                //                                        mCalendarView.getCurYear(), mCalendarView.getCurMonth(), 23);
                                 break;
                             case 6:
                                 Log.e("scheme", "  " + mCalendarView.getSelectedCalendar().getScheme() + "  --  "
@@ -384,8 +390,8 @@ public class MainActivity extends BaseActivity implements
         if (isClick) {
             Toast.makeText(this, getCalendarText(calendar), Toast.LENGTH_SHORT).show();
         }
-//        Log.e("lunar "," --  " + calendar.getLunarCalendar().toString() + "\n" +
-//        "  --  " + calendar.getLunarCalendar().getYear());
+        //        Log.e("lunar "," --  " + calendar.getLunarCalendar().toString() + "\n" +
+        //        "  --  " + calendar.getLunarCalendar().getYear());
         Log.e("onDateSelected", "  -- " + calendar.getYear() +
                 "  --  " + calendar.getMonth() +
                 "  -- " + calendar.getDay() +
@@ -432,7 +438,6 @@ public class MainActivity extends BaseActivity implements
     public void onViewChange(boolean isMonthView) {
         Log.e("onViewChange", "  ---  " + (isMonthView ? "月视图" : "周视图"));
     }
-
 
     @Override
     public void onWeekChange(List<Calendar> weekCalendars) {

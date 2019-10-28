@@ -137,7 +137,8 @@ public class MeiZuActivity extends BaseActivity implements
         calendar.setYear(year);
         calendar.setMonth(month);
         calendar.setDay(day);
-        calendar.setSchemeColor(color);//如果单独标记颜色、则会使用这个颜色
+        //如果单独标记颜色、则会使用这个颜色
+        calendar.setSchemeColor(color);
         calendar.setScheme(text);
         calendar.addScheme(new Calendar.Scheme());
         calendar.addScheme(0xFF008800, "假");

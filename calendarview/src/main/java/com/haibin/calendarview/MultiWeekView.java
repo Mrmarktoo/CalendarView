@@ -36,7 +36,7 @@ public abstract class MultiWeekView extends BaseWeekView {
      */
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mItems.size() == 0)
+        if (mDayItems.size() == 0)
             return;
         mItemWidth = (getWidth() - 2 * mDelegate.getCalendarPadding()) / 7;
         onPreviewHook();
@@ -44,7 +44,7 @@ public abstract class MultiWeekView extends BaseWeekView {
         for (int i = 0; i < 7; i++) {
             int x = i * mItemWidth + mDelegate.getCalendarPadding();
             onLoopStart(x);
-            Calendar calendar = mItems.get(i);
+            Calendar calendar = mDayItems.get(i);
             boolean isSelected = isCalendarSelected(calendar);
             boolean isPreSelected = isSelectPreCalendar(calendar);
             boolean isNextSelected = isSelectNextCalendar(calendar);
@@ -115,7 +115,7 @@ public abstract class MultiWeekView extends BaseWeekView {
             mDelegate.mSelectedCalendars.put(key, calendar);
         }
 
-        mCurrentItem = mItems.indexOf(calendar);
+        mCurrentItem = mDayItems.indexOf(calendar);
 
         if (mDelegate.mInnerListener != null) {
             mDelegate.mInnerListener.onWeekDateSelected(calendar, true);

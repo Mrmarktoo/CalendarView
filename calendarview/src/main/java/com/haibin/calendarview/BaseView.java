@@ -30,7 +30,9 @@ import java.util.List;
 
 /**
  * 基本的日历View，派生出MonthView 和 WeekView
- * Created by huanghaibin on 2018/1/23.
+ *
+ * @author huanghaibin
+ * @date 2018/1/23
  */
 
 public abstract class BaseView extends View implements View.OnClickListener, View.OnLongClickListener {
@@ -105,7 +107,7 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
     /**
      * 日历项
      */
-    List<Calendar> mItems;
+    List<Calendar> mDayItems;
 
     /**
      * 每一项的高度
@@ -273,12 +275,11 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
         mTextBaseLine = mItemHeight / 2 - metrics.descent + (metrics.bottom - metrics.top) / 2;
     }
 
-
     /**
      * 移除事件
      */
     final void removeSchemes() {
-        for (Calendar a : mItems) {
+        for (Calendar a : mDayItems) {
             a.setScheme("");
             a.setSchemeColor(0);
             a.setSchemes(null);
@@ -292,7 +293,7 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
         if (mDelegate.mSchemeDatesMap == null || mDelegate.mSchemeDatesMap.size() == 0) {
             return;
         }
-        for (Calendar a : mItems) {
+        for (Calendar a : mDayItems) {
             if (mDelegate.mSchemeDatesMap.containsKey(a.toString())) {
                 Calendar d = mDelegate.mSchemeDatesMap.get(a.toString());
                 if(d == null){
@@ -312,8 +313,9 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getPointerCount() > 1)
+        if (event.getPointerCount() > 1) {
             return false;
+        }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mX = event.getX();
@@ -354,7 +356,7 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
      * @return true or false
      */
     protected boolean isSelected(Calendar calendar) {
-        return mItems != null && mItems.indexOf(calendar) == mCurrentItem;
+        return mDayItems != null && mDayItems.indexOf(calendar) == mCurrentItem;
     }
 
     /**

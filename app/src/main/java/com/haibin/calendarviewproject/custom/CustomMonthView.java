@@ -140,18 +140,25 @@ public class CustomMonthView extends MonthView {
         int cy = y + mItemHeight / 2;
         int top = y - mItemHeight / 6;
 
+        // TODO: 2019/10/18 当前日期且未被选中时，绘制未选中背景
         if (calendar.isCurrentDay() && !isSelected) {
             canvas.drawCircle(cx, cy, mRadius, mCurrentDayPaint);
         }
 
+        // TODO: 2019/10/18 绘制标记文本
         if (hasScheme) {
-            canvas.drawCircle(x + mItemWidth - mPadding - mCircleRadius / 2, y + mPadding + mCircleRadius, mCircleRadius, mSchemeBasicPaint);
+            canvas.drawCircle(x + mItemWidth - mPadding - mCircleRadius / 2,
+                    y + mPadding + mCircleRadius, mCircleRadius, mSchemeBasicPaint);
             mTextPaint.setColor(calendar.getSchemeColor());
-            canvas.drawText(calendar.getScheme(), x + mItemWidth - mPadding - mCircleRadius, y + mPadding + mSchemeBaseLine, mTextPaint);
+            canvas.drawText(calendar.getScheme(),
+                    x + mItemWidth - mPadding - mCircleRadius,
+                    y + mPadding + mSchemeBaseLine,
+                    mTextPaint);
         }
 
         //当然可以换成其它对应的画笔就不麻烦，
         if (calendar.isWeekend() && calendar.isCurrentMonth()) {
+            // TODO: 2019/10/18 当前月的周末绘制
             mCurMonthTextPaint.setColor(0xFF489dff);
             mCurMonthLunarTextPaint.setColor(0xFF489dff);
             mSchemeTextPaint.setColor(0xFF489dff);
@@ -159,6 +166,7 @@ public class CustomMonthView extends MonthView {
             mOtherMonthLunarTextPaint.setColor(0xFF489dff);
             mOtherMonthTextPaint.setColor(0xFF489dff);
         } else {
+            // TODO: 2019/10/18 非当前月 日期绘制
             mCurMonthTextPaint.setColor(0xff333333);
             mCurMonthLunarTextPaint.setColor(0xffCFCFCF);
             mSchemeTextPaint.setColor(0xff333333);
@@ -169,24 +177,26 @@ public class CustomMonthView extends MonthView {
         }
 
         if (isSelected) {
+            // TODO: 2019/10/18 绘制选中文本
             canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
                     mSelectTextPaint);
             canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + y + mItemHeight / 10, mSelectedLunarTextPaint);
         } else if (hasScheme) {
-
+            // TODO: 2019/10/18 未选中、有标记的日期文本绘制
             canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
                     calendar.isCurrentMonth() ? mSchemeTextPaint : mOtherMonthTextPaint);
 
             canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + y + mItemHeight / 10,
                     !TextUtils.isEmpty(calendar.getSolarTerm()) ? mSolarTermTextPaint : mSchemeLunarTextPaint);
         } else {
+            // TODO: 2019/10/18 未选中、没有标记的日期文本绘制
             canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
                     calendar.isCurrentDay() ? mCurDayTextPaint :
                             calendar.isCurrentMonth() ? mCurMonthTextPaint : mOtherMonthTextPaint);
 
             canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + y + mItemHeight / 10,
                     calendar.isCurrentDay() ? mCurDayLunarTextPaint :
-                            calendar.isCurrentMonth() ? !TextUtils.isEmpty(calendar.getSolarTerm()) ? mSolarTermTextPaint  :
+                            calendar.isCurrentMonth() ? !TextUtils.isEmpty(calendar.getSolarTerm()) ? mSolarTermTextPaint :
                                     mCurMonthLunarTextPaint : mOtherMonthLunarTextPaint);
         }
     }

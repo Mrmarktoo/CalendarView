@@ -32,17 +32,17 @@ public abstract class RangeMonthView extends BaseMonthView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mLineCount == 0)
+        if (mCurrentLineCount == 0)
             return;
         mItemWidth = (getWidth() - 2 * mDelegate.getCalendarPadding()) / 7;
         onPreviewHook();
-        int count = mLineCount * 7;
+        int count = mCurrentLineCount * 7;
         int d = 0;
-        for (int i = 0; i < mLineCount; i++) {
+        for (int i = 0; i < mCurrentLineCount; i++) {
             for (int j = 0; j < 7; j++) {
-                Calendar calendar = mItems.get(d);
+                Calendar calendar = mDayItems.get(d);
                 if (mDelegate.getMonthViewShowMode() == CalendarViewDelegate.MODE_ONLY_CURRENT_MONTH) {
-                    if (d > mItems.size() - mNextDiff) {
+                    if (d > mDayItems.size() - mNextMonthDiff) {
                         return;
                     }
                     if (!calendar.isCurrentMonth()) {
@@ -181,7 +181,7 @@ public abstract class RangeMonthView extends BaseMonthView {
 
         }
 
-        mCurrentItem = mItems.indexOf(calendar);
+        mCurrentItem = mDayItems.indexOf(calendar);
 
         if (!calendar.isCurrentMonth() && mMonthViewPager != null) {
             int cur = mMonthViewPager.getCurrentItem();
@@ -195,7 +195,7 @@ public abstract class RangeMonthView extends BaseMonthView {
 
         if (mParentLayout != null) {
             if (calendar.isCurrentMonth()) {
-                mParentLayout.updateSelectPosition(mItems.indexOf(calendar));
+                mParentLayout.updateSelectPosition(mDayItems.indexOf(calendar));
             } else {
                 mParentLayout.updateSelectWeek(CalendarUtil.getWeekFromDayInMonth(calendar, mDelegate.getWeekStart()));
             }

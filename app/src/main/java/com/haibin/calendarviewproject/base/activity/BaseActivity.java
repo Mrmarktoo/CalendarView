@@ -3,11 +3,13 @@ package com.haibin.calendarviewproject.base.activity;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -16,7 +18,6 @@ import java.lang.reflect.Method;
  * 基类
  * Created by huanghaibin on 2017/11/16.
  */
-
 public abstract class BaseActivity extends AppCompatActivity {
 
     private static boolean isMiUi = false;
@@ -31,13 +32,54 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void initData();
 
+    protected void showLog(String tag, String info) {
+        Log.e(tag, this.getLocalClassName() + "--" + info);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        showLog("Activity", "onCreate");
         super.onCreate(savedInstanceState);
         initWindow();
         setContentView(getLayoutId());
         initView();
         initData();
+    }
+
+    @Override
+    protected void onStart() {
+        showLog("Activity", "onStart");
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        showLog("Activity", "onResume");
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        showLog("Activity", "onPause");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        showLog("Activity", "onStop");
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+        showLog("Activity", "onRestart");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        showLog("Activity", "onDestroy");
+        super.onDestroy();
     }
 
     /**
@@ -63,7 +105,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     /*
      * 静态域，获取系统版本是否基于MIUI
      */
-
     static {
         try {
             @SuppressLint("PrivateApi") Class<?> sysClass = Class.forName("android.os.SystemProperties");
@@ -74,7 +115,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 
     /**
      * 设置魅族手机状态栏图标颜色风格
@@ -131,7 +171,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return result;
     }
-
 
     @SuppressLint("InlinedApi")
     protected void setStatusBarDarkMode() {

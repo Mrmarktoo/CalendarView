@@ -1144,7 +1144,6 @@ public class CalendarView extends FrameLayout {
         this.mDelegate.mViewChangeListener = listener;
     }
 
-
     public void setOnYearViewChangeListener(OnYearViewChangeListener listener) {
         this.mDelegate.mYearViewChangeListener = listener;
     }
@@ -1191,7 +1190,6 @@ public class CalendarView extends FrameLayout {
         super.onRestoreInstanceState(superData);
     }
 
-
     /**
      * 初始化时初始化日历卡默认选择位置
      */
@@ -1228,6 +1226,7 @@ public class CalendarView extends FrameLayout {
      * @param mSchemeDates mSchemeDatesMap 通过自己的需求转换即可
      */
     public final void setSchemeDate(Map<String, Calendar> mSchemeDates) {
+        // TODO: 2019/10/18 设置标记组
         this.mDelegate.mSchemeDatesMap = mSchemeDates;
         this.mDelegate.updateSelectCalendarScheme();
         this.mYearViewPager.update();
@@ -1320,7 +1319,6 @@ public class CalendarView extends FrameLayout {
         mYearViewPager.setBackgroundColor(yearViewBackground);
         mWeekLine.setBackgroundColor(lineBg);
     }
-
 
     /**
      * 设置文本颜色
@@ -1503,10 +1501,12 @@ public class CalendarView extends FrameLayout {
     private void setWeekStart(int weekStart) {
         if (weekStart != CalendarViewDelegate.WEEK_START_WITH_SUN &&
                 weekStart != CalendarViewDelegate.WEEK_START_WITH_MON &&
-                weekStart != CalendarViewDelegate.WEEK_START_WITH_SAT)
+                weekStart != CalendarViewDelegate.WEEK_START_WITH_SAT) {
             return;
-        if (weekStart == mDelegate.getWeekStart())
+        }
+        if (weekStart == mDelegate.getWeekStart()) {
             return;
+        }
         mDelegate.setWeekStart(weekStart);
         mWeekBar.onWeekStartChange(weekStart);
         mWeekBar.onDateSelected(mDelegate.mSelectedCalendar, weekStart, false);
@@ -1556,10 +1556,12 @@ public class CalendarView extends FrameLayout {
     private void setShowMode(int mode) {
         if (mode != CalendarViewDelegate.MODE_ALL_MONTH &&
                 mode != CalendarViewDelegate.MODE_ONLY_CURRENT_MONTH &&
-                mode != CalendarViewDelegate.MODE_FIT_MONTH)
+                mode != CalendarViewDelegate.MODE_FIT_MONTH) {
             return;
-        if (mDelegate.getMonthViewShowMode() == mode)
+        }
+        if (mDelegate.getMonthViewShowMode() == mode) {
             return;
+        }
         mDelegate.setMonthViewShowMode(mode);
         mWeekPager.updateShowMode();
         mMonthPager.updateShowMode();

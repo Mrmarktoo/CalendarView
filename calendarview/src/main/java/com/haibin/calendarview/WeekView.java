@@ -36,19 +36,21 @@ public abstract class WeekView extends BaseWeekView {
      */
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mItems.size() == 0)
+        if (mDayItems.size() == 0) {
             return;
+        }
         mItemWidth = (getWidth() - 2 * mDelegate.getCalendarPadding()) / 7;
         onPreviewHook();
 
-        for (int i = 0; i < mItems.size(); i++) {
+        for (int i = 0; i < mDayItems.size(); i++) {
             int x = i * mItemWidth + mDelegate.getCalendarPadding();
             onLoopStart(x);
-            Calendar calendar = mItems.get(i);
+            Calendar calendar = mDayItems.get(i);
             boolean isSelected = i == mCurrentItem;
             boolean hasScheme = calendar.hasScheme();
             if (hasScheme) {
-                boolean isDrawSelected = false;//是否继续绘制选中的onDrawScheme
+                //是否继续绘制选中的onDrawScheme
+                boolean isDrawSelected = false;
                 if (isSelected) {
                     isDrawSelected = onDrawSelected(canvas, calendar, x, true);
                 }
@@ -87,7 +89,7 @@ public abstract class WeekView extends BaseWeekView {
             return;
         }
 
-        mCurrentItem = mItems.indexOf(calendar);
+        mCurrentItem = mDayItems.indexOf(calendar);
 
         if (mDelegate.mInnerListener != null) {
             mDelegate.mInnerListener.onWeekDateSelected(calendar, true);
@@ -107,8 +109,9 @@ public abstract class WeekView extends BaseWeekView {
 
     @Override
     public boolean onLongClick(View v) {
-        if (mDelegate.mCalendarLongClickListener == null)
+        if (mDelegate.mCalendarLongClickListener == null) {
             return false;
+        }
         if (!isClick) {
             return false;
         }
@@ -137,7 +140,7 @@ public abstract class WeekView extends BaseWeekView {
         }
 
 
-        mCurrentItem = mItems.indexOf(calendar);
+        mCurrentItem = mDayItems.indexOf(calendar);
 
         mDelegate.mIndexCalendar = mDelegate.mSelectedCalendar;
 

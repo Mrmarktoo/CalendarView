@@ -556,9 +556,9 @@ final class CalendarViewDelegate {
         this.mMaxYear = maxYear;
         this.mMaxYearMonth = maxYearMonth;
         this.mMaxYearDay = maxYearDay;
-//        if (this.mMaxYear < mCurrentDate.getYear()) {
-//            this.mMaxYear = mCurrentDate.getYear();
-//        }
+        //        if (this.mMaxYear < mCurrentDate.getYear()) {
+        //            this.mMaxYear = mCurrentDate.getYear();
+        //        }
         if (this.mMaxYearDay == -1) {
             this.mMaxYearDay = CalendarUtil.getMonthDaysCount(this.mMaxYear, mMaxYearMonth);
         }
@@ -940,6 +940,7 @@ final class CalendarViewDelegate {
     }
 
     final void updateSelectCalendarScheme() {
+        // TODO: 2019/10/18 更新选中的日历标记
         if (mSchemeDatesMap != null && mSchemeDatesMap.size() > 0) {
             String key = mSelectedCalendar.toString();
             if (mSchemeDatesMap.containsKey(key)) {
@@ -952,6 +953,7 @@ final class CalendarViewDelegate {
     }
 
     final void updateCalendarScheme(Calendar targetCalendar) {
+        // TODO: 2019/10/18 更新日历标记
         if (targetCalendar == null) {
             return;
         }
@@ -1001,13 +1003,14 @@ final class CalendarViewDelegate {
      * 添加事件标记，来自Map
      */
     final void addSchemesFromMap(List<Calendar> mItems) {
+        // TODO: 2019/10/18 批量添加标记
         if (mSchemeDatesMap == null || mSchemeDatesMap.size() == 0) {
             return;
         }
         for (Calendar a : mItems) {
             if (mSchemeDatesMap.containsKey(a.toString())) {
                 Calendar d = mSchemeDatesMap.get(a.toString());
-                if(d == null){
+                if (d == null) {
                     continue;
                 }
                 a.setScheme(TextUtils.isEmpty(d.getScheme()) ? getSchemeText() : d.getScheme());
@@ -1036,10 +1039,10 @@ final class CalendarViewDelegate {
         for (String key : mSchemeDates.keySet()) {
             this.mSchemeDatesMap.remove(key);
             Calendar calendar = mSchemeDates.get(key);
-            if(calendar == null){
+            if (calendar == null) {
                 continue;
             }
-            this.mSchemeDatesMap.put(key,calendar);
+            this.mSchemeDatesMap.put(key, calendar);
         }
     }
 

@@ -22,12 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 日历对象、
+ * 日历对象
  */
 @SuppressWarnings("all")
 public final class Calendar implements Serializable, Comparable<Calendar> {
     private static final long serialVersionUID = 141315161718191143L;
-
 
     /**
      * 年
@@ -70,12 +69,10 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
      */
     private String lunar;
 
-
     /**
      * 24节气
      */
     private String solarTerm;
-
 
     /**
      * 公历节日
@@ -99,7 +96,6 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
      */
     private int schemeColor;
 
-
     /**
      * 多标记
      * multi scheme,using addScheme();
@@ -120,7 +116,6 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
      * 获取完整的农历日期
      */
     private Calendar lunarCalendar;
-
 
     public int getYear() {
         return year;
@@ -150,7 +145,6 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
         return isCurrentMonth;
     }
 
-
     public void setCurrentMonth(boolean currentMonth) {
         this.isCurrentMonth = currentMonth;
     }
@@ -163,7 +157,6 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
         isCurrentDay = currentDay;
     }
 
-
     public String getLunar() {
         return lunar;
     }
@@ -172,16 +165,13 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
         this.lunar = lunar;
     }
 
-
     public String getScheme() {
         return scheme;
     }
 
-
     public void setScheme(String scheme) {
         this.scheme = scheme;
     }
-
 
     public int getSchemeColor() {
         return schemeColor;
@@ -191,7 +181,6 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
         this.schemeColor = schemeColor;
     }
 
-
     public List<Scheme> getSchemes() {
         return schemes;
     }
@@ -199,7 +188,6 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
     public void setSchemes(List<Scheme> schemes) {
         this.schemes = schemes;
     }
-
 
     public void addScheme(Scheme scheme) {
         if (schemes == null) {
@@ -276,7 +264,6 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
         this.gregorianFestival = gregorianFestival;
     }
 
-
     public int getLeapMonth() {
         return leapMonth;
     }
@@ -327,6 +314,7 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
      * @param calendar 日期
      * @return -1 0 1
      */
+    @Override
     public int compareTo(Calendar calendar) {
         if (calendar == null) {
             return 1;
@@ -350,7 +338,7 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
      * @return 日期是否可用
      */
     public boolean isAvailable() {
-        return year > 0 & month > 0 & day > 0 & day <=31 & month <= 12 & year >= 1900 & year <= 2099;
+        return year > 0 & month > 0 & day > 0 & day <= 31 & month <= 12 & year >= 1900 & year <= 2099;
     }
 
     /**
@@ -369,8 +357,9 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
     @Override
     public boolean equals(Object o) {
         if (o != null && o instanceof Calendar) {
-            if (((Calendar) o).getYear() == year && ((Calendar) o).getMonth() == month && ((Calendar) o).getDay() == day)
+            if (((Calendar) o).getYear() == year && ((Calendar) o).getMonth() == month && ((Calendar) o).getDay() == day) {
                 return true;
+            }
         }
         return super.equals(o);
     }
@@ -380,18 +369,10 @@ public final class Calendar implements Serializable, Comparable<Calendar> {
         return year + "" + (month < 10 ? "0" + month : month) + "" + (day < 10 ? "0" + day : day);
     }
 
-//    @Override
-//    public int compare(Calendar lhs, Calendar rhs) {
-//        if (lhs == null || rhs == null) {
-//            return 0;
-//        }
-//        int result = lhs.compareTo(rhs);
-//        return result;
-//    }
-
     final void mergeScheme(Calendar calendar, String defaultScheme) {
-        if (calendar == null)
+        if (calendar == null) {
             return;
+        }
         setScheme(TextUtils.isEmpty(calendar.getScheme()) ?
                 defaultScheme : calendar.getScheme());
         setSchemeColor(calendar.getSchemeColor());

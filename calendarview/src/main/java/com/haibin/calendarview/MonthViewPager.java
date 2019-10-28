@@ -379,7 +379,7 @@ public final class MonthViewPager extends ViewPager {
         if (view == null) {
             return null;
         }
-        return view.mItems;
+        return view.mDayItems;
     }
 
     /**

@@ -21,37 +21,41 @@ import android.content.Context;
 /**
  * 月视图基础控件,可自由继承实现
  * 可通过此扩展各种视图如：MonthView、RangeMonthView、MultiMonthView
+ *
+ * @author haibin
  */
 public abstract class BaseMonthView extends BaseView {
 
-    MonthViewPager mMonthViewPager;
+    /**
+     * 月份切换viewpager
+     */
+    protected MonthViewPager mMonthViewPager;
 
     /**
      * 当前日历卡年份
      */
-    protected int mYear;
+    protected int mCurrentYear;
 
     /**
      * 当前日历卡月份
      */
-    protected int mMonth;
-
+    protected int mCurrentMonth;
 
     /**
      * 日历的行数
      */
-    protected int mLineCount;
+    protected int mCurrentLineCount;
 
     /**
      * 日历高度
      */
-    protected int mHeight;
+    protected int mCurrentCalendarHeight;
 
 
     /**
      * 下个月偏移的数量
      */
-    protected int mNextDiff;
+    protected int mNextMonthDiff;
 
     public BaseMonthView(Context context) {
         super(context);
@@ -64,10 +68,10 @@ public abstract class BaseMonthView extends BaseView {
      * @param month month
      */
     final void initMonthWithDate(int year, int month) {
-        mYear = year;
-        mMonth = month;
+        mCurrentYear = year;
+        mCurrentMonth = month;
         initCalendar();
-        mHeight = CalendarUtil.getMonthViewHeight(year, month, mItemHeight, mDelegate.getWeekStart(),
+        mCurrentCalendarHeight = CalendarUtil.getMonthViewHeight(year, month, mItemHeight, mDelegate.getWeekStart(),
                 mDelegate.getMonthViewShowMode());
 
     }
@@ -78,28 +82,27 @@ public abstract class BaseMonthView extends BaseView {
     @SuppressLint("WrongConstant")
     private void initCalendar() {
 
-        mNextDiff = CalendarUtil.getMonthEndDiff(mYear, mMonth, mDelegate.getWeekStart());
-        int preDiff = CalendarUtil.getMonthViewStartDiff(mYear, mMonth, mDelegate.getWeekStart());
-        int monthDayCount = CalendarUtil.getMonthDaysCount(mYear, mMonth);
+        mNextMonthDiff = CalendarUtil.getMonthEndDiff(mCurrentYear, mCurrentMonth, mDelegate.getWeekStart());
+        int preDiff = CalendarUtil.getMonthViewStartDiff(mCurrentYear, mCurrentMonth, mDelegate.getWeekStart());
+        int monthDayCount = CalendarUtil.getMonthDaysCount(mCurrentYear, mCurrentMonth);
 
-        mItems = CalendarUtil.initCalendarForMonthView(mYear, mMonth, mDelegate.getCurrentDay(), mDelegate.getWeekStart());
+        mDayItems = CalendarUtil.initCalendarForMonthView(mCurrentYear, mCurrentMonth, mDelegate.getCurrentDay(), mDelegate.getWeekStart());
 
-        if (mItems.contains(mDelegate.getCurrentDay())) {
-            mCurrentItem = mItems.indexOf(mDelegate.getCurrentDay());
+        if (mDayItems.contains(mDelegate.getCurrentDay())) {
+            mCurrentItem = mDayItems.indexOf(mDelegate.getCurrentDay());
         } else {
-            mCurrentItem = mItems.indexOf(mDelegate.mSelectedCalendar);
+            mCurrentItem = mDayItems.indexOf(mDelegate.mSelectedCalendar);
         }
 
-        if (mCurrentItem > 0 &&
-                mDelegate.mCalendarInterceptListener != null &&
-                mDelegate.mCalendarInterceptListener.onCalendarIntercept(mDelegate.mSelectedCalendar)) {
+        if (mCurrentItem > 0 && mDelegate.mCalendarInterceptListener != null
+                && mDelegate.mCalendarInterceptListener.onCalendarIntercept(mDelegate.mSelectedCalendar)) {
             mCurrentItem = -1;
         }
 
         if (mDelegate.getMonthViewShowMode() == CalendarViewDelegate.MODE_ALL_MONTH) {
-            mLineCount = 6;
+            mCurrentLineCount = 6;
         } else {
-            mLineCount = (preDiff + monthDayCount + mNextDiff) / 7;
+            mCurrentLineCount = (preDiff + monthDayCount + mNextMonthDiff) / 7;
         }
         addSchemesFromMap();
         invalidate();
@@ -120,8 +123,8 @@ public abstract class BaseMonthView extends BaseView {
         }
         int indexY = (int) mY / mItemHeight;
         int position = indexY * 7 + indexX;// 选择项
-        if (position >= 0 && position < mItems.size())
-            return mItems.get(position);
+        if (position >= 0 && position < mDayItems.size())
+            return mDayItems.get(position);
         return null;
     }
 
@@ -131,7 +134,7 @@ public abstract class BaseMonthView extends BaseView {
      * @param calendar calendar
      */
     final void setSelectedCalendar(Calendar calendar) {
-        mCurrentItem = mItems.indexOf(calendar);
+        mCurrentItem = mDayItems.indexOf(calendar);
     }
 
 
@@ -139,9 +142,9 @@ public abstract class BaseMonthView extends BaseView {
      * 更新显示模式
      */
     final void updateShowMode() {
-        mLineCount = CalendarUtil.getMonthViewLineCount(mYear, mMonth,
-                mDelegate.getWeekStart(),mDelegate.getMonthViewShowMode());
-        mHeight = CalendarUtil.getMonthViewHeight(mYear, mMonth, mItemHeight, mDelegate.getWeekStart(),
+        mCurrentLineCount = CalendarUtil.getMonthViewLineCount(mCurrentYear, mCurrentMonth,
+                mDelegate.getWeekStart(), mDelegate.getMonthViewShowMode());
+        mCurrentCalendarHeight = CalendarUtil.getMonthViewHeight(mCurrentYear, mCurrentMonth, mItemHeight, mDelegate.getWeekStart(),
                 mDelegate.getMonthViewShowMode());
         invalidate();
     }
@@ -151,28 +154,28 @@ public abstract class BaseMonthView extends BaseView {
      */
     final void updateWeekStart() {
         initCalendar();
-        mHeight = CalendarUtil.getMonthViewHeight(mYear, mMonth, mItemHeight, mDelegate.getWeekStart(),
+        mCurrentCalendarHeight = CalendarUtil.getMonthViewHeight(mCurrentYear, mCurrentMonth, mItemHeight, mDelegate.getWeekStart(),
                 mDelegate.getMonthViewShowMode());
     }
 
     @Override
     void updateItemHeight() {
         super.updateItemHeight();
-        mHeight = CalendarUtil.getMonthViewHeight(mYear, mMonth, mItemHeight, mDelegate.getWeekStart(),
+        mCurrentCalendarHeight = CalendarUtil.getMonthViewHeight(mCurrentYear, mCurrentMonth, mItemHeight, mDelegate.getWeekStart(),
                 mDelegate.getMonthViewShowMode());
     }
 
 
     @Override
     void updateCurrentDate() {
-        if (mItems == null)
+        if (mDayItems == null)
             return;
-        if (mItems.contains(mDelegate.getCurrentDay())) {
-            for (Calendar a : mItems) {//添加操作
+        if (mDayItems.contains(mDelegate.getCurrentDay())) {
+            for (Calendar a : mDayItems) {//添加操作
                 a.setCurrentDay(false);
             }
-            int index = mItems.indexOf(mDelegate.getCurrentDay());
-            mItems.get(index).setCurrentDay(true);
+            int index = mDayItems.indexOf(mDelegate.getCurrentDay());
+            mDayItems.get(index).setCurrentDay(true);
         }
         invalidate();
     }
@@ -185,13 +188,13 @@ public abstract class BaseMonthView extends BaseView {
      * @return 获取选中的下标
      */
     protected final int getSelectedIndex(Calendar calendar) {
-        return mItems.indexOf(calendar);
+        return mDayItems.indexOf(calendar);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (mLineCount != 0) {
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(mHeight, MeasureSpec.EXACTLY);
+        if (mCurrentLineCount != 0) {
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(mCurrentCalendarHeight, MeasureSpec.EXACTLY);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
@@ -203,6 +206,7 @@ public abstract class BaseMonthView extends BaseView {
      * 1、需要绘制圆形标记事件背景，可以在这里计算半径
      * 2、绘制矩形选中效果，也可以在这里计算矩形宽和高
      */
+    @Override
     protected void onPreviewHook() {
         // TODO: 2017/11/16
     }

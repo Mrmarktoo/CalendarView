@@ -34,7 +34,7 @@ public abstract class BaseWeekView extends BaseView {
      * @param calendar calendar
      */
     final void setup(Calendar calendar) {
-        mItems = CalendarUtil.initCalendarForWeekView(calendar, mDelegate, mDelegate.getWeekStart());
+        mDayItems = CalendarUtil.initCalendarForWeekView(calendar, mDelegate, mDelegate.getWeekStart());
         addSchemesFromMap();
         invalidate();
     }
@@ -50,7 +50,7 @@ public abstract class BaseWeekView extends BaseView {
                 !calendar.equals(mDelegate.mSelectedCalendar)) {
             return;
         }
-        mCurrentItem = mItems.indexOf(calendar);
+        mCurrentItem = mDayItems.indexOf(calendar);
     }
 
 
@@ -64,20 +64,20 @@ public abstract class BaseWeekView extends BaseView {
 
         if (mParentLayout == null ||
                 mDelegate.mInnerListener == null ||
-                mItems == null || mItems.size() == 0) {
+                mDayItems == null || mDayItems.size() == 0) {
             return;
         }
 
         int week = CalendarUtil.getWeekViewIndexFromCalendar(calendar, mDelegate.getWeekStart());
-        if (mItems.contains(mDelegate.getCurrentDay())) {
+        if (mDayItems.contains(mDelegate.getCurrentDay())) {
             week = CalendarUtil.getWeekViewIndexFromCalendar(mDelegate.getCurrentDay(), mDelegate.getWeekStart());
         }
 
         int curIndex = week;
 
-        Calendar currentCalendar = mItems.get(week);
+        Calendar currentCalendar = mDayItems.get(week);
         if (mDelegate.getSelectMode() != CalendarViewDelegate.SELECT_MODE_DEFAULT) {
-            if (mItems.contains(mDelegate.mSelectedCalendar)) {
+            if (mDayItems.contains(mDelegate.mSelectedCalendar)) {
                 currentCalendar = mDelegate.mSelectedCalendar;
             } else {
                 mCurrentItem = -1;
@@ -86,7 +86,7 @@ public abstract class BaseWeekView extends BaseView {
 
         if (!isInRange(currentCalendar)) {
             curIndex = getEdgeIndex(isMinRangeEdge(currentCalendar));
-            currentCalendar = mItems.get(curIndex);
+            currentCalendar = mDayItems.get(curIndex);
         }
 
 
@@ -140,8 +140,8 @@ public abstract class BaseWeekView extends BaseView {
      * @return 获得边界范围内下标
      */
     final int getEdgeIndex(boolean isMinEdge) {
-        for (int i = 0; i < mItems.size(); i++) {
-            Calendar item = mItems.get(i);
+        for (int i = 0; i < mDayItems.size(); i++) {
+            Calendar item = mDayItems.get(i);
             boolean isInRange = isInRange(item);
             if (isMinEdge && isInRange) {
                 return i;
@@ -166,8 +166,8 @@ public abstract class BaseWeekView extends BaseView {
         }
         int indexY = (int) mY / mItemHeight;
         int position = indexY * 7 + indexX;// 选择项
-        if (position >= 0 && position < mItems.size())
-            return mItems.get(position);
+        if (position >= 0 && position < mDayItems.size())
+            return mDayItems.get(position);
         return null;
     }
 
@@ -198,7 +198,7 @@ public abstract class BaseWeekView extends BaseView {
      * 更新当选模式
      */
     final void updateSingleSelect() {
-        if (!mItems.contains(mDelegate.mSelectedCalendar)) {
+        if (!mDayItems.contains(mDelegate.mSelectedCalendar)) {
             mCurrentItem = -1;
             invalidate();
         }
@@ -206,14 +206,14 @@ public abstract class BaseWeekView extends BaseView {
 
     @Override
     void updateCurrentDate() {
-        if (mItems == null)
+        if (mDayItems == null)
             return;
-        if (mItems.contains(mDelegate.getCurrentDay())) {
-            for (Calendar a : mItems) {//添加操作
+        if (mDayItems.contains(mDelegate.getCurrentDay())) {
+            for (Calendar a : mDayItems) {//添加操作
                 a.setCurrentDay(false);
             }
-            int index = mItems.indexOf(mDelegate.getCurrentDay());
-            mItems.get(index).setCurrentDay(true);
+            int index = mDayItems.indexOf(mDelegate.getCurrentDay());
+            mDayItems.get(index).setCurrentDay(true);
         }
         invalidate();
     }
@@ -231,6 +231,7 @@ public abstract class BaseWeekView extends BaseView {
      * 1、需要绘制圆形标记事件背景，可以在这里计算半径
      * 2、绘制矩形选中效果，也可以在这里计算矩形宽和高
      */
+    @Override
     protected void onPreviewHook() {
         // TODO: 2017/11/16
     }

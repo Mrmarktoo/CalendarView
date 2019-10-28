@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * 一些日期辅助计算工具
  */
-final class CalendarUtil {
+public final class CalendarUtil {
 
     private static final long ONE_DAY = 1000 * 3600 * 24;
 
@@ -796,7 +796,7 @@ final class CalendarUtil {
      * @param dpValue dp
      * @return px
      */
-    static int dipToPx(Context context, float dpValue) {
+    public static int dipToPx(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }

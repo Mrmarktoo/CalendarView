@@ -21,7 +21,9 @@ import android.view.View;
 
 /**
  * 月视图基础控件,可自由继承实现
- * Created by huanghaibin on 2017/11/15.
+ *
+ * @author huanghaibin
+ * @date 2017/11/15
  */
 public abstract class MonthView extends BaseMonthView {
 
@@ -31,17 +33,19 @@ public abstract class MonthView extends BaseMonthView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mLineCount == 0)
+        if (mCurrentLineCount == 0) {
             return;
+        }
         mItemWidth = (getWidth() - 2 * mDelegate.getCalendarPadding()) / 7;
         onPreviewHook();
-        int count = mLineCount * 7;
+        int count = mCurrentLineCount * 7;
         int d = 0;
-        for (int i = 0; i < mLineCount; i++) {
-            for (int j = 0; j < 7; j++) {
-                Calendar calendar = mItems.get(d);
+        for (int weekIndex = 0; weekIndex < mCurrentLineCount; weekIndex++) {
+            for (int weekDayIndex = 0; weekDayIndex < 7; weekDayIndex++) {
+                Calendar calendar = mDayItems.get(d);
                 if (mDelegate.getMonthViewShowMode() == CalendarViewDelegate.MODE_ONLY_CURRENT_MONTH) {
-                    if (d > mItems.size() - mNextDiff) {
+                    /**只绘制当前月份*/
+                    if (d > mDayItems.size() - mNextMonthDiff) {
                         return;
                     }
                     if (!calendar.isCurrentMonth()) {
@@ -49,11 +53,12 @@ public abstract class MonthView extends BaseMonthView {
                         continue;
                     }
                 } else if (mDelegate.getMonthViewShowMode() == CalendarViewDelegate.MODE_FIT_MONTH) {
+                    /**绘制月份，当前月外也会绘制*/
                     if (d >= count) {
                         return;
                     }
                 }
-                draw(canvas, calendar, i, j, d);
+                draw(canvas, calendar, weekIndex, weekDayIndex, d);
                 ++d;
             }
         }
@@ -63,22 +68,23 @@ public abstract class MonthView extends BaseMonthView {
     /**
      * 开始绘制
      *
-     * @param canvas   canvas
-     * @param calendar 对应日历
-     * @param i        i
-     * @param j        j
-     * @param d        d
+     * @param canvas       canvas
+     * @param calendar     对应日历
+     * @param weekIndex    周索引
+     * @param weekDayIndex 周中日索引
+     * @param d            d
      */
-    private void draw(Canvas canvas, Calendar calendar, int i, int j, int d) {
-        int x = j * mItemWidth + mDelegate.getCalendarPadding();
-        int y = i * mItemHeight;
+    private void draw(Canvas canvas, Calendar calendar, int weekIndex, int weekDayIndex, int d) {
+        int x = weekDayIndex * mItemWidth + mDelegate.getCalendarPadding();
+        int y = weekIndex * mItemHeight;
         onLoopStart(x, y);
         boolean isSelected = d == mCurrentItem;
         boolean hasScheme = calendar.hasScheme();
 
         if (hasScheme) {
             //标记的日子
-            boolean isDrawSelected = false;//是否继续绘制选中的onDrawScheme
+            //是否继续绘制选中的onDrawScheme
+            boolean isDrawSelected = false;
             if (isSelected) {
                 isDrawSelected = onDrawSelected(canvas, calendar, x, y, true);
             }
@@ -125,7 +131,7 @@ public abstract class MonthView extends BaseMonthView {
             return;
         }
 
-        mCurrentItem = mItems.indexOf(calendar);
+        mCurrentItem = mDayItems.indexOf(calendar);
 
         if (!calendar.isCurrentMonth() && mMonthViewPager != null) {
             int cur = mMonthViewPager.getCurrentItem();
@@ -139,7 +145,7 @@ public abstract class MonthView extends BaseMonthView {
 
         if (mParentLayout != null) {
             if (calendar.isCurrentMonth()) {
-                mParentLayout.updateSelectPosition(mItems.indexOf(calendar));
+                mParentLayout.updateSelectPosition(mDayItems.indexOf(calendar));
             } else {
                 mParentLayout.updateSelectWeek(CalendarUtil.getWeekFromDayInMonth(calendar, mDelegate.getWeekStart()));
             }
@@ -153,8 +159,9 @@ public abstract class MonthView extends BaseMonthView {
 
     @Override
     public boolean onLongClick(View v) {
-        if (mDelegate.mCalendarLongClickListener == null)
+        if (mDelegate.mCalendarLongClickListener == null) {
             return false;
+        }
         if (!isClick) {
             return false;
         }
@@ -167,7 +174,6 @@ public abstract class MonthView extends BaseMonthView {
                 !calendar.isCurrentMonth()) {
             return false;
         }
-
 
         if (onCalendarIntercept(calendar)) {
             mDelegate.mCalendarInterceptListener.onCalendarInterceptClick(calendar, true);
@@ -191,7 +197,7 @@ public abstract class MonthView extends BaseMonthView {
         }
 
 
-        mCurrentItem = mItems.indexOf(calendar);
+        mCurrentItem = mDayItems.indexOf(calendar);
 
         if (!calendar.isCurrentMonth() && mMonthViewPager != null) {
             int cur = mMonthViewPager.getCurrentItem();
@@ -205,7 +211,7 @@ public abstract class MonthView extends BaseMonthView {
 
         if (mParentLayout != null) {
             if (calendar.isCurrentMonth()) {
-                mParentLayout.updateSelectPosition(mItems.indexOf(calendar));
+                mParentLayout.updateSelectPosition(mDayItems.indexOf(calendar));
             } else {
                 mParentLayout.updateSelectWeek(CalendarUtil.getWeekFromDayInMonth(calendar, mDelegate.getWeekStart()));
             }
