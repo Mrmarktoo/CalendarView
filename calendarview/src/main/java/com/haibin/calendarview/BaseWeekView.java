@@ -46,8 +46,7 @@ public abstract class BaseWeekView extends BaseView {
      * @param calendar calendar
      */
     final void setSelectedCalendar(Calendar calendar) {
-        if (mDelegate.getSelectMode() == CalendarViewDelegate.SELECT_MODE_SINGLE &&
-                !calendar.equals(mDelegate.mSelectedCalendar)) {
+        if (mDelegate.getSelectMode() == CalendarViewDelegate.SELECT_MODE_SINGLE && !calendar.equals(mDelegate.mSelectedCalendar)) {//单选时设置选中日期
             return;
         }
         mCurrentItem = mDayItems.indexOf(calendar);

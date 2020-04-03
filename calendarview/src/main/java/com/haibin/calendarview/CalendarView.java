@@ -213,7 +213,8 @@ public class CalendarView extends FrameLayout {
                 mDelegate.mSelectedCalendar = mDelegate.getMinRangeCalendar();
             }
         } else {
-            mDelegate.mSelectedCalendar = new Calendar();
+//            mDelegate.mSelectedCalendar = new Calendar();
+            mDelegate.mSelectedCalendar = mDelegate.createCurrentDate();
         }
 
         mDelegate.mIndexCalendar = mDelegate.mSelectedCalendar;
@@ -385,8 +386,7 @@ public class CalendarView extends FrameLayout {
         mYearViewPager.setVisibility(GONE);
         mWeekBar.setVisibility(VISIBLE);
         if (position == mMonthPager.getCurrentItem()) {
-            if (mDelegate.mCalendarSelectListener != null &&
-                    mDelegate.getSelectMode() != CalendarViewDelegate.SELECT_MODE_SINGLE) {
+            if (mDelegate.mCalendarSelectListener != null && mDelegate.getSelectMode() != CalendarViewDelegate.SELECT_MODE_SINGLE) {//非单选时日历选择回调当前选择日期
                 mDelegate.mCalendarSelectListener.onCalendarSelect(mDelegate.mSelectedCalendar, false);
             }
         } else {
@@ -1461,10 +1461,10 @@ public class CalendarView extends FrameLayout {
      * 单选模式
      */
     public void setSelectSingleMode() {
-        if (mDelegate.getSelectMode() == CalendarViewDelegate.SELECT_MODE_SINGLE) {
+        if (mDelegate.getSelectMode() == CalendarViewDelegate.SELECT_MODE_SINGLE) {//设置模式
             return;
         }
-        mDelegate.setSelectMode(CalendarViewDelegate.SELECT_MODE_SINGLE);
+        mDelegate.setSelectMode(CalendarViewDelegate.SELECT_MODE_SINGLE);//设置模式
         mWeekPager.updateSelected();
         mMonthPager.updateSelected();
     }
@@ -1521,7 +1521,7 @@ public class CalendarView extends FrameLayout {
      * @return isSingleSelectMode
      */
     public boolean isSingleSelectMode() {
-        return mDelegate.getSelectMode() == CalendarViewDelegate.SELECT_MODE_SINGLE;
+        return mDelegate.getSelectMode() == CalendarViewDelegate.SELECT_MODE_SINGLE;//获取单选模式
     }
 
     /**
@@ -1630,6 +1630,15 @@ public class CalendarView extends FrameLayout {
      */
     public Calendar getSelectedCalendar() {
         return mDelegate.mSelectedCalendar;
+    }
+
+    /**
+     * 获取选择的日期
+     *
+     * @return 获取选择的日期
+     */
+    public void setSelectedCalendar(Calendar calendar) {
+        mDelegate.mSelectedCalendar = calendar;
     }
 
     /**

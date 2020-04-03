@@ -2,6 +2,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\alex\\Desktop\\e_zone_keystore.jks')
+            storePassword 'joinu12345'
+            keyPassword 'joinu12345'
+            keyAlias = 'shop'
+        }
+    }
     compileSdkVersion 28
     //noinspection GradleDependency
     defaultConfig {

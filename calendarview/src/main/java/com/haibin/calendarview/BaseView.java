@@ -363,7 +363,8 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
      * 更新事件
      */
     final void update() {
-        if (mDelegate.mSchemeDatesMap == null || mDelegate.mSchemeDatesMap.size() == 0) {//清空操作
+        if (mDelegate.mSchemeDatesMap == null || mDelegate.mSchemeDatesMap.size() == 0) {
+            //清空操作
             removeSchemes();
             invalidate();
             return;

@@ -112,7 +112,7 @@ public class IndexActivity extends BaseActivity implements
     }
 
     private void initCalendarData(int year, int month) {
-        Map<String, Calendar> map = new HashMap<>();
+
         //        map.put(getSchemeCalendar(year, month, 3, 0xFF40db25, "白").toString(),
         //                getSchemeCalendar(year, month, 3, 0xFF40db25, "白"));
         //        map.put(getSchemeCalendar(year, month, 6, 0xFFe69138, "夜").toString(),
@@ -131,7 +131,7 @@ public class IndexActivity extends BaseActivity implements
         //                getSchemeCalendar(year, month, 25, 0xFF13acf0, "假"));
         //        map.put(getSchemeCalendar(year, month, 27, 0xFF13acf0, "多").toString(),
         //                getSchemeCalendar(year, month, 27, 0xFF13acf0, "多"));
-
+        Map<String, Calendar> map = new HashMap<>();
         for (int i = 1; i < 30; i++) {
             Calendar calendar = getSchemeCalendar(year, month, i);
             map.put(calendar.toString(), calendar);

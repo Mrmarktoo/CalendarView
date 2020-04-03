@@ -130,17 +130,23 @@ final class CalendarViewDelegate {
     /**
      * 各种字体颜色，看名字知道对应的地方
      */
-    private int mCurDayTextColor,
-            mCurDayLunarTextColor,
-            mWeekTextColor,
-            mSchemeTextColor,
-            mSchemeLunarTextColor,
-            mOtherMonthTextColor,
-            mCurrentMonthTextColor,
-            mSelectedTextColor,
-            mSelectedLunarTextColor,
-            mCurMonthLunarTextColor,
-            mOtherMonthLunarTextColor;
+    private int mCurDayTextColor,//当前日字体颜色
+            mCurDayLunarTextColor,//当前日农历颜色
+            mWeekTextColor,//星期栏文字颜色
+            mSchemeTextColor,//标记文本颜色 mSchemeTextPaint
+            mSchemeLunarTextColor,//标记农历字体颜色
+            mOtherMonthTextColor,//其他月份字体颜色
+            mSelectedTextColor,//选中字体颜色 mSelectTextPaint
+            mSelectedLunarTextColor,//选中农历字体颜色
+            mCurrentMonthTextColor,//当前月份字体颜色 mCurMonthTextPaint
+            mCurMonthLunarTextColor,//当前月份农历颜色
+            mOtherMonthLunarTextColor;//其他月份农历字体颜色
+
+    /**
+     * 标记的主题色和选中的主题色
+     */
+    private int mSchemeThemeColor,// 标记颜色 mSchemePaint
+            mSelectedThemeColor;// 选中颜色 mSelectedPaint
 
     private boolean preventLongPressedSelected;
 
@@ -195,12 +201,10 @@ final class CalendarViewDelegate {
      * 星期栏字体大小
      */
     private int mWeekTextSize;
-
     /**
-     * 标记的主题色和选中的主题色
+     * 星期栏的高度
      */
-    private int mSchemeThemeColor, mSelectedThemeColor;
-
+    private int mWeekBarHeight;
 
     /**
      * 自定义的日历路径
@@ -284,10 +288,6 @@ final class CalendarViewDelegate {
      */
     private boolean isFullScreenCalendar;
 
-    /**
-     * 星期栏的高度
-     */
-    private int mWeekBarHeight;
 
     /**
      * 今天的日子
@@ -404,12 +404,15 @@ final class CalendarViewDelegate {
         mYearViewClassPath = array.getString(R.styleable.CalendarView_year_view);
         mWeekViewClassPath = array.getString(R.styleable.CalendarView_week_view);
         mWeekBarClassPath = array.getString(R.styleable.CalendarView_week_bar_view);
+
+        mWeekTextColor = array.getColor(R.styleable.CalendarView_week_text_color, 0xFF333333);
         mWeekTextSize = array.getDimensionPixelSize(R.styleable.CalendarView_week_text_size,
                 CalendarUtil.dipToPx(context, 12));
         mWeekBarHeight = (int) array.getDimension(R.styleable.CalendarView_week_bar_height,
                 CalendarUtil.dipToPx(context, 40));
         mWeekLineMargin = (int) array.getDimension(R.styleable.CalendarView_week_line_margin,
                 CalendarUtil.dipToPx(context, 0));
+
 
         mSchemeText = array.getString(R.styleable.CalendarView_scheme_text);
         if (TextUtils.isEmpty(mSchemeText)) {
@@ -434,7 +437,6 @@ final class CalendarViewDelegate {
         mWeekBackground = array.getColor(R.styleable.CalendarView_week_background, Color.WHITE);
         mWeekLineBackground = array.getColor(R.styleable.CalendarView_week_line_background, Color.TRANSPARENT);
         mYearViewBackground = array.getColor(R.styleable.CalendarView_year_view_background, Color.WHITE);
-        mWeekTextColor = array.getColor(R.styleable.CalendarView_week_text_color, 0xFF333333);
 
         mCurDayTextColor = array.getColor(R.styleable.CalendarView_current_day_text_color, Color.RED);
         mCurDayLunarTextColor = array.getColor(R.styleable.CalendarView_current_day_lunar_text_color, Color.RED);
