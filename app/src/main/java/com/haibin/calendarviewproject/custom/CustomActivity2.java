@@ -26,7 +26,7 @@ import com.haibin.calendarviewproject.simple.SimpleActivity;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomActivity extends BaseActivity implements
+public class CustomActivity2 extends BaseActivity implements
         CalendarView.OnCalendarSelectListener,
         CalendarView.OnYearChangeListener,
         View.OnClickListener {
@@ -47,7 +47,7 @@ public class CustomActivity extends BaseActivity implements
     GroupRecyclerView mRecyclerView;
 
     public static void show(Context context) {
-        context.startActivity(new Intent(context, CustomActivity.class));
+        context.startActivity(new Intent(context, CustomActivity2.class));
     }
 
 
@@ -55,8 +55,6 @@ public class CustomActivity extends BaseActivity implements
     protected int getLayoutId() {
         return R.layout.activity_custom;
     }
-
-    private boolean showCalendar = true;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -66,8 +64,8 @@ public class CustomActivity extends BaseActivity implements
         mTextYear = findViewById(R.id.tv_year);
         mTextLunar = findViewById(R.id.tv_lunar);
         mRelativeTool = findViewById(R.id.rl_tool);
-        mCalendarView = findViewById(R.id.calendarView);
-        mTextCurrentDay = findViewById(R.id.tv_current_day);
+        mCalendarView =  findViewById(R.id.calendarView);
+        mTextCurrentDay =  findViewById(R.id.tv_current_day);
         mTextMonthDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,19 +80,9 @@ public class CustomActivity extends BaseActivity implements
             }
         });
         findViewById(R.id.fl_current).setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-//                mCalendarView.scrollToCurrent();
-
-                if (showCalendar) {
-                    showCalendar = false;
-                    mCalendarLayout.hideCalendarView2();
-                } else {
-                    showCalendar = true;
-                    mCalendarLayout.showCalendarView2();
-                }
-
+                mCalendarView.scrollToCurrent();
                 //mCalendarView.addSchemeDate(getSchemeCalendar(2019, 6, 1, 0xFF40db25, "假"));
 //                int year = 2019;
 //                int month = 6;
@@ -160,7 +148,7 @@ public class CustomActivity extends BaseActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_flyme:
-                CustomActivity.show(this);
+                CustomActivity2.show(this);
                 break;
             case R.id.ll_simple:
                 SimpleActivity.show(this);
