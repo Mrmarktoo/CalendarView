@@ -133,7 +133,7 @@ public class FullActivity extends BaseActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_flyme:
-                CustomActivity.show(this);
+                CustomActivity.Companion.show(this);
                 break;
             case R.id.ll_simple:
                 SimpleActivity.show(this);

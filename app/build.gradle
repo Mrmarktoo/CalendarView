@@ -1,5 +1,7 @@
 //noinspection GradleCompatible
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     signingConfigs {
@@ -43,5 +45,9 @@ dependencies {
     //implementation 'com.haibin:calendarview:3.6.7'
     testImplementation 'junit:junit:4.12'
     implementation project(':calendarview')
-  
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+}
+repositories {
+    mavenCentral()
 }

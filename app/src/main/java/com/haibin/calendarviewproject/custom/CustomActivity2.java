@@ -106,7 +106,12 @@ public class CustomActivity2 extends BaseActivity implements
         mTextMonthDay.setText(mCalendarView.getCurMonth() + "月" + mCalendarView.getCurDay() + "日");
         mTextLunar.setText("今日");
         mTextCurrentDay.setText(String.valueOf(mCalendarView.getCurDay()));
+
+        mCalendarLayout.hideCalendarView2();
+        showCalendar = false;
     }
+
+    private boolean showCalendar = true;
 
     @Override
     protected void initData() {

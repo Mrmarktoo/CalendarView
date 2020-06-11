@@ -2,15 +2,14 @@ package com.haibin.calendarviewproject;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-
-import androidx.appcompat.app.AlertDialog;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarLayout;
@@ -325,7 +324,7 @@ public class MainActivity extends BaseActivity implements
 
                 break;
             case R.id.ll_custom:
-                CustomActivity.show(this);
+                CustomActivity.Companion.show(this);
                 break;
             case R.id.ll_full:
                 FullActivity.show(this);
