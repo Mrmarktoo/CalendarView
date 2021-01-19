@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: "com.jfrog.artifactory"
 
 android {
     compileSdkVersion 28
@@ -28,7 +29,7 @@ android {
         from('build/intermediates/bundles/release/')
         into('build/libs/')
         include('classes.jar')
-        rename ('classes.jar', 'CalendarView.jar')
+        rename('classes.jar', 'CalendarView.jar')
     }
     intoJar.dependsOn(build)
 }
@@ -44,4 +45,5 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     testImplementation 'junit:junit:4.12'
 }
-apply from: '../script/gradle-jcenter-push.gradle'
+//apply from: '../script/gradle-jcenter-push.gradle'
+apply from: '../script/jfrog_publish.gradle'

@@ -1,0 +1,21 @@
+artifactory {
+    contextUrl = "http://mvn.inddbes.com"   //The base Artifactory URL if not overridden by the publisher/resolver
+    publish {
+        repository {
+            repoKey = 'gradle-release-local'
+            username = "zhaoyy"
+            password = "AP6FhyjUVDrmRu2vfLWQCDPUmSC"
+            maven = true
+
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'gradle-dev'
+            username = "zhaoyy"
+            password = "AP6FhyjUVDrmRu2vfLWQCDPUmSC"
+            maven = true
+
+        }
+    }
+}
